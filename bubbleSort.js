@@ -41,4 +41,4 @@ console.log(recherchebinaire(table, 5))
   return n +  compteAvant(n-1)
  }
  console.log(compteAvant(5))
- 
+console.log("conflit entre main et reda")
