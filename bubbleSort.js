@@ -42,3 +42,4 @@ console.log(recherchebinaire(table, 5))
  }
  console.log(compteAvant(5))
 console.log("test conflit sur github")
+console.log("conflit entre main et reda")
