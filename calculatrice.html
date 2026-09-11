@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Calculatrice</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #2c2c2c;
+      font-family: Arial, sans-serif;
+    }
+
+    .calculatrice {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    #ecran {
+      width: 100%;
+      min-height: 60px;
+      background: #111;
+      color: #fff;
+      font-size: 1.8em;
+      text-align: right;
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .boutons {
+      display: grid;
+      grid-template-columns: repeat(4, 70px);
+      gap: 10px;
+    }
+
+    button {
+      height: 60px;
+      font-size: 1.3em;
+      border: none;
+      border-radius: 6px;
+      background: #444;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #666;
+    }
+
+    .operation {
+      background: #ff9500;
+    }
+
+    .operation:hover {
+      background: #ffb84d;
+    }
+
+    .egal {
+      background: #ff9500;
+      grid-column: span 1;
+    }
+
+    .clear {
+      background: #a83232;
+    }
+
+    .zero {
+      grid-column: span 3;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="calculatrice">
+
+    <div id="ecran">0</div>
+
+    <div class="boutons">
+
+      <button id="clear" class="clear">C</button>
+      <button id="supprimer">⌫</button>
+
+      <button class="operation">÷</button>
+      <button class="operation">×</button>
+
+      <button class="chiffre">7</button>
+      <button class="chiffre">8</button>
+      <button class="chiffre">9</button>
+      <button class="operation">-</button>
+
+      <button class="chiffre">4</button>
+      <button class="chiffre">5</button>
+      <button class="chiffre">6</button>
+      <button class="operation">+</button>
+
+      <button class="chiffre">1</button>
+      <button class="chiffre">2</button>
+      <button class="chiffre">3</button>
+
+      <button id="egal" class="egal">=</button>
+
+      <button class="chiffre zero">0</button>
+      <button class="chiffre">.</button>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    const ecran = document.getElementById('ecran');
+
+    let nombreCourant = '0';
+    let nombrePrecedent = null;
+    let operationChoisie = null;
+
+
+    function majEcran() {
+
+      if (operationChoisie !== null) {
+
+        ecran.textContent =
+          `${nombrePrecedent} ${operationChoisie} ${nombreCourant}`;
+
+      } else {
+
+        ecran.textContent = nombreCourant;
+
+      }
+
+    }
+
+
+    function ajouterChiffre(chiffre) {
+
+      if (chiffre === '.' && nombreCourant.includes('.')) {
+        return;
+      }
+      if (nombreCourant === '0' && chiffre !== '.') {
+        nombreCourant = chiffre;
+      } else {
+        nombreCourant += chiffre;
+      }
+      majEcran();
+
+    }
+
+
+    function effacerDernier() {
+      nombreCourant = nombreCourant.slice(0, -1);
+      if (nombreCourant === '') {
+        nombreCourant = '0';
+      }
+      majEcran();
+
+    }
+
+
+    function choisirOperation(op) {
+
+      if (
+        nombrePrecedent !== null &&
+        nombreCourant !== '0'
+      ) {
+
+        calculer();
+
+      }
+
+      operationChoisie = op;
+
+      nombrePrecedent = nombreCourant;
+
+      nombreCourant = '0';
+
+      majEcran();
+
+    }
+
+
+    function calculer() {
+
+      if (
+        operationChoisie === null ||
+        nombrePrecedent === null
+      ) {
+
+        return;
+
+      }
+
+      const a = parseFloat(nombrePrecedent);
+      const b = parseFloat(nombreCourant);
+
+      let resultat;
+
+
+      switch (operationChoisie) {
+
+        case '+':
+          resultat = a + b;
+          break;
+
+        case '-':
+          resultat = a - b;
+          break;
+
+        case '×':
+          resultat = a * b;
+          break;
+
+        case '÷':
+
+          if (b === 0) {
+            resultat = 'Erreur';
+          } else {
+            resultat = a / b;
+          }
+
+          break;
+
+      }
+
+
+      nombreCourant = resultat.toString();
+
+      operationChoisie = null;
+
+      nombrePrecedent = null;
+
+      majEcran();
+
+    }
+
+
+    function effacer() {
+
+      nombreCourant = '0';
+
+      nombrePrecedent = null;
+
+      operationChoisie = null;
+
+      majEcran();
+
+    }
+
+
+    // =====================================
+    // GESTION DES BOUTONS
+    // =====================================
+
+
+    // Tous les boutons des chiffres
+    const boutonsChiffres =
+      document.querySelectorAll('.chiffre');
+
+
+    boutonsChiffres.forEach((bouton) => {
+
+      bouton.addEventListener('click', () => {
+
+        ajouterChiffre(bouton.textContent);
+
+      });
+
+    });
+
+
+    // Tous les boutons des opérations
+    const boutonsOperations =
+      document.querySelectorAll('.operation');
+
+
+    boutonsOperations.forEach((bouton) => {
+
+      bouton.addEventListener('click', () => {
+
+        choisirOperation(bouton.textContent);
+
+      });
+
+    });
+    const boutonEgal =
+      document.getElementById('egal');
+      boutonEgal.addEventListener('click', () => {
+      calculer();
+
+    });
+
+    const boutonClear =
+      document.getElementById('clear');
+      boutonClear.addEventListener('click', () => {
+      effacer();
+
+    });
+
+    const boutonSupprimer = document.getElementById('supprimer');
+    boutonSupprimer.addEventListener('click', () => {
+      effacerDernier();
+
+    });
+
+
+  </script>
+
+</body>
+
+</html>

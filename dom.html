@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>Catalogue de produits — Solution DOM</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #f7f7f5;
+    margin: 0;
+    padding: 30px;
+    color: #2b2b2b;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 4px;
+  }
+
+  .sous-titre {
+    color: #666;
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-size: 14px;
+  }
+
+  #resume {
+    display: flex;
+    gap: 20px;
+    margin-top: 54px;
+    justify-content: center;
+    
+  }
+
+  #resume p {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin: 0;
+    font-size: 14px;
+  }
+
+  #catalogue {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 26px;
+    justify-content: center;
+    margin-top: 5%;
+  }
+
+  .carte-produit {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 16px;
+    width: 190px;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .carte-produit h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+  }
+
+  .carte-produit p {
+    margin: 0 0 10px 0;
+    font-weight: bold;
+    color: #2f6f4f;
+  }
+
+  .carte-produit img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #eee;
+    display: block;
+  }
+
+  .rupture {
+    opacity: 0.5;
+    background-color: #f5f5f5;
+  }
+
+  .rupture p {
+    color: #999;
+  }
+
+  .promo {
+    background-color: #ffd85e;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 10px;
+    width: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+</head>
+<body>
+
+  <h1 style="margin: auto; text-align: center;">Catalogue de produits</h1>
+
+  <div id="resume">
+    <p id="nombre-produits"></p>
+    <p id="total-stock"></p>
+  </div>
+
+  <div id="catalogue"></div>
+
+  <script>
+    // ============================================
+    // Données de départ
+    // ============================================
+
+    let produits = [
+      { id: 1, nom: "Sac à dos", prix: 3500, stock: 12, image: "image.png" },
+      { id: 2, nom: "Stylo plume", prix: 800, stock: 0, image: "image.png" },
+      { id: 3, nom: "Cahier A4", prix: 250, stock: 40, image: "image.png" },
+      { id: 4, nom: "Calculatrice", prix: 2200, stock: 5, image: "image.png" },
+      { id: 5, nom: "Trousse", prix: 600, stock: 0, image: "image.png" },
+    ];
+
+    let catalogue = document.querySelector("#catalogue");
+    let totalStockEl = document.querySelector("#total-stock");
+    let nombreProduitsEl = document.querySelector("#nombre-produits");
+
+    // 1. Génération des cartes
+    produits.forEach((produit) => {
+      let carte = document.createElement("div");
+      carte.classList.add("carte-produit");
+      carte.dataset.id = produit.id;
+
+      let titre = document.createElement("h3");
+      titre.textContent = produit.nom;
+
+      let prixEl = document.createElement("p");
+      prixEl.textContent = `${produit.prix} DA`;
+
+      let image = document.createElement("img");
+      image.setAttribute("src", produit.image);
+      image.setAttribute("alt", produit.nom);
+
+      carte.appendChild(titre);
+      carte.appendChild(prixEl);
+      carte.appendChild(image);
+
+      // 2. rupture de stock
+      if (produit.stock === 0) {
+        carte.classList.add("rupture");
+      }
+
+      catalogue.appendChild(carte);
+    });
+
+    // 3. insérer une bannière promo avant la première carte en rupture
+    let premiereRupture = document.querySelector(".rupture");
+    if (premiereRupture) {
+      let banniere = document.createElement("div");
+      banniere.classList.add("promo");
+      banniere.textContent = "Bientôt de retour !";
+      catalogue.insertBefore(banniere, premiereRupture);
+    }
+
+    // 4. compter les cartes générées
+    let toutesLesCartes = document.querySelectorAll(".carte-produit");
+    nombreProduitsEl.textContent = `${toutesLesCartes.length} produits au catalogue`;
+
+    // 5. valeur totale du stock
+    let valeurTotale = produits.reduce((acc, produit) => {
+      return acc + produit.prix * produit.stock;
+    }, 0);
+    totalStockEl.textContent = `Valeur totale du stock : ${valeurTotale} DA`;
+
+    // 6. supprimer la carte "Trousse"
+    let carteTrousse = document.querySelector('[data-id="5"]');
+    if (carteTrousse) {
+      carteTrousse.remove();
+    }
+
+    // 7. changer la bordure du sac à dos
+    let carteSac = document.querySelector('[data-id="1"]');
+    carteSac.style.borderColor = "blue";
+    carteSac.style.borderWidth = "2px";
+
+    // DÉFI : trouver le produit suivant "Cahier A4" via le parcours du DOM
+    // let toutesCartesActuelles = document.querySelectorAll(".carte-produit");
+    // toutesCartesActuelles.forEach((carte) => {
+    //   let nomCarte = carte.querySelector("h3").textContent;
+    //   if (nomCarte === "Cahier A4") {
+    //     let carteSuivante = carte.nextElementSibling;
+    //     if (carteSuivante && carteSuivante.classList.contains("carte-produit")) {
+    //       console.log("Produit suivant :", carteSuivante.querySelector("h3").textContent);
+    //     } else {
+    //       console.log("Pas de carte-produit juste après (peut-être une bannière promo)");
+    //     }
+    //   }
+    // });
+  </script>
+
+</body>
+</html>

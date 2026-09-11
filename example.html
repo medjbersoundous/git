@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <main>
+    <section>
+        <form action="" id="form">
+            <input type="text" id="email" placeholder="enter your email" required>
+            <button type="submit">s'inscrire</button>
+        </form>
+        <p id="message"></p>
+    </section>
+   </main> 
+   <script>
+    let form = document.querySelector("#form")
+    let message = document.querySelector("#message")
+    form.addEventListener("submit", (e)=>{
+        e.preventDefault()
+        const emailinput = document.querySelector("#email")
+        const email = emailinput.value.trim()
+        if(email===""){
+            message.textContent="entrer un email valide"
+            message.style.color = "red"
+          return
+        }
+        message.textContent=`${email} votre inscription est valide`
+        message.style.color="green"
+        form.reset()
+    })
+   </script>
+</body>
+</html>

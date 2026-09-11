@@ -1,0 +1,128 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <section>
+             <h1 id="titre">hello</h1>
+            <p>nouveau titre <span> special </span></p>
+            <p class="para">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro placeat asperiores delectus a perferendis sequi pariatur beatae dicta praesentium. A nam sunt ad, odit unde eveniet quibusdam? Perferendis, hic impedit!</p>
+            <button class="btn">click here</button>
+            <button>test</button>
+        </section>
+        <section>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque debitis pariatur perferendis alias recusandae iusto totam enim blanditiis libero. Aliquid voluptates odio suscipit, harum at enim nemo. Sequi, saepe alias.2</p>
+
+        </section>
+                <section>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque debitis pariatur perferendis alias recusandae iusto totam enim blanditiis libero. Aliquid voluptates odio suscipit, harum at enim nemo. Sequi, saepe alias.2</p>
+            
+        </section>
+                <section>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque debitis pariatur perferendis alias recusandae iusto totam enim blanditiis libero. Aliquid voluptates odio suscipit, harum at enim nemo. Sequi, saepe alias.2</p>
+            
+        </section>
+        <section>
+            <ul id="list">
+                 
+                <li>item 1</li>
+                <li id="milieu">item 2</li>
+                <li>item 3</li>
+              
+            </ul>
+         
+        </section>
+        <section id="sect4">
+            <img src="image.png" alt="image">
+
+            <h1 id="tst1">test</h1>
+            <h2 id="tst">test 2</h2>
+           
+        </section>
+    </main>
+    <script>
+        let titre = document.querySelector("#titre")
+        let description = document.querySelector(".para")
+        let title = document.getElementById("titre")
+    
+    
+        let button = document.querySelector("button")
+        let paragraphs = document.querySelectorAll("p")
+        // titre.textContent= "nouveau  titre <span> special </span>"
+        titre.innerHTML="neaveau titre <span> special </span>"
+        // console.log(paragraphs)
+        titre.style.color = "red"
+        titre.classList.add("newclass")
+        // description.classList.remove("para")
+        titre.classList.toggle("actif")
+        button.classList.toggle("btn")
+
+        /////////////////////////////////////////////////////////////////////////////////
+        let paragraph = document.getElementsByClassName("para")
+        let p = document.getElementsByTagName("p")
+        let paras = document.querySelectorAll("p")
+        // console.log(p)
+        // console.log(paragraph)
+        // console.log(paras)
+        paras.forEach((a)=>console.log(a))
+        Array.from(p).forEach((s)=>console.log(s))
+
+
+        let milieu = document.querySelector("#milieu")
+        let parent = milieu.parentElement
+        // console.log( "parent"+parent)
+        // console.log(milieu.nextElementSibling)
+        // console.log(milieu.previousElementSibling)
+        // console.log("children"+parent.children)
+        // console.log("premier enfant:"+parent.firstElementChild.textContent)
+        // console.log(parent.lastElementChild)
+        //   titre.innerHTML="<p>nouveau titre <span> special </span> "
+          titre.outerHTML="nouveau titre <span> special </span> "
+
+
+
+        let photo = document.querySelector("img")
+        console.log(photo.getAttribute("src"))
+        console.log(photo.setAttribute("src", "img2.png"))
+        console.log(photo.hasAttribute("alt"))
+       photo.removeAttribute("alt")
+       let section4 = document.querySelector("#sect4")
+       let liste = document.createElement("ul")
+       let div = document.createElement("div")
+       let li = document.createElement("li")
+       let li2 = document.createElement("li")
+       li2.textContent="item 2 last"
+       li.textContent = "item 1 new"
+       section4.append(liste, div)
+       liste.appendChild(li)
+       liste.prepend(li2)
+       let test1 = document.querySelector("#tst1")
+       let test2 = document.querySelector("#tst")
+       let test3 = document.createElement("p")
+       test3.textContent="new paragraph"
+       section4.insertBefore(test3, test2)
+       let copie = liste.cloneNode(true)
+       let copie2 = liste.cloneNode(false)
+       console.log(copie)
+       console.log(copie2)
+       liste.append(copie)
+       li.remove()
+
+
+
+
+
+       
+       
+
+
+
+
+       
+
+    </script>
+</body>
+</html>

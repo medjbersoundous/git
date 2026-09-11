@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <section>
+            <button class="btn">click here</button>
+            <div class="element">
+                <h1>title</h1>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus, ipsam? Minus vero deleniti veniam quae! Velit quibusdam placeat possimus minus voluptatibus dolor voluptatum voluptates assumenda, veniam ex, corrupti fugit harum.
+                </p>
+                <input type="text">
+                <button class="btn2">remove</button>
+            </div>
+            <div>
+                <form  id="formulaire">
+                    <input type="text"  id="text">
+                     <button type="submit">send</button>
+
+                </form>
+            </div>
+        </section>
+    </main>
+    <script>
+        let bouton = document.querySelector(".btn")
+        let bouton2 = document.querySelector(".btn2")
+        function surClick(){
+            console.log("bouton clicked")
+        }
+      
+  console.log(surClick===surClick)
+//   console.log(function(){}===function(){})
+
+//    bouton.addEventListener("click",() =>{
+//   console.log("bouton clicked")    
+//   })
+//   bouton.removeEventListener("click",() =>{
+//   console.log("bouton clicked")      
+//   })
+    bouton.addEventListener("click", surClick)
+  bouton.removeEventListener("click", surClick)
+        let element = document.querySelector(".element")
+        // element.addEventListener("mouseover", ()=>{
+        //     element.style.border="1px solid black"
+        // })
+          element.addEventListener("mouseenter", ()=>{
+            element.style.backgroundColor="red"
+        })
+        element.addEventListener("mouseleave", ()=>{
+            element.style.backgroundColor="black"
+        })
+        element.addEventListener("mouseout",()=>{
+               element.style.backgroundColor="black"
+        } )
+         element.addEventListener("contextmenu", (event)=>{
+            event.preventDefault();
+            console.log("clic intercepte")
+         })
+
+
+
+
+        let input = document.querySelector("#text")
+        input.addEventListener("keydown", (event)=>{
+            if(event.key==="Enter"){
+                console.log("entree clicker")
+            } else if(event.key==="f"){
+                console.log("f clicker")
+            }
+        })
+        input.addEventListener("keyup", (event)=>{
+
+          input.style.borderColor="black"
+        })
+
+        let formulaire = document.querySelector("#formulaire")
+        formulaire.addEventListener("submit", (event)=>{
+            event.preventDefault()
+            console.log("formulaire envoye", input.value)
+        })
+        input.addEventListener("input", ()=>{
+            console.log("saisie en cours:", input.value)
+        })
+        input.addEventListener("change", ()=>{
+            console.log("valeur finale", input.value)
+        })
+
+    </script>
+</body>
+</html>

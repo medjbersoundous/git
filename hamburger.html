@@ -1,0 +1,84 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .list{
+            display: flex;
+            justify-content: space-between;
+            list-style: none;
+            width: 50%;
+
+        }
+        nav{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: aliceblue;
+            padding: 20px;
+        }
+        #menu{
+            display: none;
+        }
+        @media (max-width:400px){
+            nav{
+                position: relative;
+            }
+            #menu{
+                display: flex;
+                background: transparent;
+                border: none;
+            }
+            .list{
+                display: none;
+                position: absolute;
+                top: 50px;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                background-color: rgb(223, 240, 254)
+            }
+            .list li{
+                padding: 20px;
+            }
+            .active{
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div>logo</div>
+            <button id="menu">☰</button>
+            <ul class="list ">
+                <li>item 1</li>
+                <li>item 2</li>
+                <li>item 3</li>
+                <li>item 4</li>
+            </ul>
+        </nav>
+    </header>
+    <script>
+        let menu = document.querySelector("#menu")
+        let list = document.querySelector(".list")
+        menu.addEventListener("click", ()=>{
+            list.classList.toggle("active")  
+            if(list.classList.contains("active")){
+                menu.textContent="X"
+            }else{
+                menu.textContent="☰"
+            }
+          })
+    </script>
+</body>
+</html>
